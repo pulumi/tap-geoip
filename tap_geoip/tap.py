@@ -5,16 +5,16 @@ from typing import List
 from singer_sdk import Tap, Stream
 from singer_sdk import typing as th  # JSON schema typing helpers
 
-# TODO: Import your custom stream types here:
-from tap_geoip.streams import (
-    GeoIPStream,
+from tap_geoip.city import (
     CityStream,
     LocationsStream,
+    DomainStream
 )
 
 STREAM_TYPES = [
     CityStream,
     LocationsStream,
+    DomainStream,
 ]
 
 
@@ -25,7 +25,8 @@ class TapGeoIP(Tap):
     # TODO: Update this section with the actual config values you expect:
     config_jsonschema = th.PropertiesList(
         th.Property("license_key", th.StringType, required=True),
-        th.Property("city_url", th.StringType, default="https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City-CSV&suffix=zip&license_key="),
+        th.Property("domain_edition", th.StringType, default="GeoLite2-Domain-CSV"),
+        th.Property("city_edition", th.StringType, default="GeoLite2-City-CSV"),
         th.Property("languages", th.StringType, default="en"),
     ).to_dict()
 
